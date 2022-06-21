@@ -65,15 +65,18 @@ describe("vtiger login error msg",async ()=>{
     })
     it("fetch errormsg",async ()=>{
 
-        //username = admin
-        const username = await $('//div//input[@name="user_name"]')
-        username.setValue("admin")
-        await browser.pause(3000)
-
-        //password = skd
-        const password = await $('//div//input[@name="user_password"]')
-        password.setValue("skd")
-        await browser.pause(3000)
+        var username = "admin"
+         var password = "Skd"
+         
+         //username = admin
+         var usernameInput = await $('//div//input[@name="user_name"]')
+         usernameInput.setValue(username)
+         await browser.pause(3000)
+ 
+         //password = root
+         var passwordInput = await $('//div//input[@name="user_password"]')
+         passwordInput.setValue(password)
+         await browser.pause(3000)
 
         //click on login button
         const button = await $('//div//input[@id="submitButton"]')

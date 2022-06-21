@@ -23,19 +23,24 @@ exports.config = {
     specs: [
         //'./test/specs/**/*.js'
        // 'test/specs/demo.js'
-       //"test/specs/firsttest.js"
+    //    "test/specs/firsttest.js"
        //"test/specs/vtiger.js"
        //"test/specs/youtube.js"
        //"test/specs/vtiger_login_error.js"
        //"test/specs/fakebook.js"
-     // "test/specs/createOrganization.js"
-      // "test/specs/createContacts.js"
-      //"test/specs/createContactwithOrg.js"
-      //"test/specs/createDocument.js"
-       "test/specs/createCampaign.js"
-       //"test/specs/createProducts.js"
-       //'test/specs/createCampaignwithProduct.js'
+    //   "test/specs/createOrganization.js"    //pass
+    //    "test/specs/createContacts.js"       //pass
+    // "test/specs/createContactwithOrg.js"   //pass
+    //   "test/specs/createDocument.js"      //pass
+    //   "test/specs/createCampaign.js"     //fail
+    //    "test/specs/createProducts.js"    //pass
+    //    'test/specs/createCampaignwithProduct.js'   //pass
+           "test/specs/orgWithIndustryDropdown.js"
     ],
+    suites: {
+        smokeSuite : ["test/specs/createDocument.js","test/specs/createContacts.js","test/specs/createProducts.js" ],
+        regressionSuite : ["test/specs/createCampaign.js", "test/specs/createProducts.js"]
+    },
     // Patterns to exclude.
     exclude: [
         // 'path/to/excluded/files'
@@ -62,20 +67,26 @@ exports.config = {
     // Sauce Labs platform configurator - a great tool to configure your capabilities:
     // https://saucelabs.com/platform/platform-configurator
     //
-    capabilities: [{
+    capabilities: [
+        {
     
         // maxInstances can get overwritten per capability. So if you have an in-house Selenium
         // grid with only 5 firefox instances available you can make sure that not more than
         // 5 instances get started at a time.
-        maxInstances: 5,
-        //
+        maxInstances: 1,
         browserName: 'chrome',
         acceptInsecureCerts: true
         // If outputDir is provided WebdriverIO can capture driver session logs
         // it is possible to configure which logTypes to include/exclude.
         // excludeDriverLogs: ['*'], // pass '*' to exclude all driver session logs
         // excludeDriverLogs: ['bugreport', 'server'],
-    }],
+    },
+    //  {
+    //     maxInstances: 2,
+    //     browserName: 'firefox',
+    //     acceptInsecureCerts: true
+    //  }
+],
     //
     // ===================
     // Test Configurations
@@ -123,7 +134,7 @@ exports.config = {
     // Services take over a specific job you don't want to take care of. They enhance
     // your test setup with almost no effort. Unlike plugins, they don't add new
     // commands. Instead, they hook themselves up into the test process.
-    services: ['chromedriver'],
+    services: ['selenium-standalone'],
     
     // Framework you want to run your specs with.
     // The following are supported: Mocha, Jasmine, and Cucumber

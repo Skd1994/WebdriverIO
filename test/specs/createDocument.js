@@ -11,15 +11,18 @@ describe("create Document",async ()=>{
 
     })
     it("login to vtiger",async()=>{
-         //username = admin
-         var username = await $('//div//input[@name="user_name"]')
-         username.setValue("admin")
-         await browser.pause(3000)
- 
-         //password = root
-         var password = await $('//div//input[@name="user_password"]')
-         password.setValue("root")
-         await browser.pause(3000)
+        var username = "admin"
+        var password = "root"
+        
+        //username = admin
+        var usernameInput = await $('//div//input[@name="user_name"]')
+        usernameInput.setValue(username)
+        await browser.pause(3000)
+
+        //password = root
+        var passwordInput = await $('//div//input[@name="user_password"]')
+        passwordInput.setValue(password)
+        await browser.pause(3000)
  
            //click on login button
            var button = await $('//div//input[@id="submitButton"]')
@@ -90,20 +93,31 @@ describe("create Document",async ()=>{
 
         //click on save button
         const saveBtn = await $("//input[@title='Save [Alt+S]']")
-          saveBtn.click()
+        await saveBtn.click()
           await browser.pause(3000)
 
            //assertion
         var documentInformation = await  $('//span[@class="dvHeaderText"]').getText()
         await console.log(documentInformation);
         await assert.include(documentInformation,"Document Information"," document page not found")
+        await browser.pause(3000)
           
           //click on administrator image
           const adminImg = await $("//img[@src='themes/softed/images/user.PNG']")
-          adminImg.moveTo()
+          await adminImg.moveTo()
+          await browser.pause(3000)
 
           //click on signout
-          await browser.$("//td//a[text()='Sign Out']").click()
+          var signOutBtn = await $("//td//a[text()='Sign Out']")
+          await signOutBtn.click()
+          await browser.pause(3000)
+
+          //assertion
+        // var loginPage = await $('//div[@class="poweredBy"]')
+        // await loginPage.getText()
+        // await console.log(loginPage);
+        // await assert.include(loginPage,"Powered by vtiger CRM","login page not found")
+        await expect(browser).toHaveUrlContaining("Login&module")
 
     })
 
