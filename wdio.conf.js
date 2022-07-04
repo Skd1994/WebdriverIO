@@ -1,3 +1,4 @@
+const video = require('wdio-video-reporter');
 exports.config = {
     //
     // ====================
@@ -28,14 +29,23 @@ exports.config = {
        //"test/specs/youtube.js"
        //"test/specs/vtiger_login_error.js"
        //"test/specs/fakebook.js"
-    //   "test/specs/createOrganization.js"    //pass
-    //    "test/specs/createContacts.js"       //pass
-    // "test/specs/createContactwithOrg.js"   //pass
-    //   "test/specs/createDocument.js"      //pass
-    //   "test/specs/createCampaign.js"     //fail
-    //    "test/specs/createProducts.js"    //pass
-    //    'test/specs/createCampaignwithProduct.js'   //pass
-           "test/specs/orgWithIndustryDropdown.js"
+      "test/specs/createOrganization.js"  ,                 //pass
+       "test/specs/createContacts.js"  ,                    //pass
+    // "test/specs/createContactwithOrg.js"                   //pass
+    //   "test/specs/createDocument.js" ,                      //pass
+    //   "test/specs/createCampaign.js"                       //fail
+    //    "test/specs/createProducts.js",                      //pass
+    //    'test/specs/createCampaignwithProduct.js'           //pass
+        //    "test/specs/orgWithIndustryDropdown.js"
+        // "test/specs/assignments/radioButton.js",            //pass
+        // "test/specs/assignments/clickonCon5.js" ,           //pass
+        // "test/specs/assignments/amazon.js"  ,               //pass
+        // "test/specs/assignments/framehandling.js"  ,        //pass
+        // "test/specs/assignments/uivisionframehandling.js" , //pass
+        // "test/specs/popup/alert.js"  ,                      //pass
+        // "test/specs/disabledElement/disabledElement.js" ,   //pass
+        // "test/specs/Vtigerlogin.js",
+        // "test/specs/createOrg.js"
     ],
     suites: {
         smokeSuite : ["test/specs/createDocument.js","test/specs/createContacts.js","test/specs/createProducts.js" ],
@@ -68,23 +78,32 @@ exports.config = {
     // https://saucelabs.com/platform/platform-configurator
     //
     capabilities: [
-        {
+      {
     
         // maxInstances can get overwritten per capability. So if you have an in-house Selenium
         // grid with only 5 firefox instances available you can make sure that not more than
         // 5 instances get started at a time.
-        maxInstances: 1,
+        maxInstances: 2,
         browserName: 'chrome',
+        // 'goog:chromeOptions': {
+        //     // to run chrome headless the following flags are required
+        //     // (see https://developers.google.com/web/updates/2017/04/headless-chrome)
+        //     args: ['--headless', '--disable-gpu'],
+        //     },
         acceptInsecureCerts: true
         // If outputDir is provided WebdriverIO can capture driver session logs
         // it is possible to configure which logTypes to include/exclude.
         // excludeDriverLogs: ['*'], // pass '*' to exclude all driver session logs
         // excludeDriverLogs: ['bugreport', 'server'],
-    },
-    //  {
+     },
+    // {
     //     maxInstances: 2,
     //     browserName: 'firefox',
-    //     acceptInsecureCerts: true
+    // 'moz:firefoxOptions': {
+        // flag to activate Firefox headless mode (see https://github.com/mozilla/geckodriver/blob/master/README.md#firefox-capabilities for more details about moz:firefoxOptions)
+        // args: ['-headless']
+    //   },
+        // acceptInsecureCerts: true
     //  }
 ],
     //
@@ -121,11 +140,11 @@ exports.config = {
     baseUrl: 'http://localhost',
     //
     // Default timeout for all waitFor* commands.
-    waitforTimeout: 100000000,
+    waitforTimeout: 100000,
     //
     // Default timeout in milliseconds for request
     // if browser driver or grid doesn't send response
-    connectionRetryTimeout: 120000,
+    connectionRetryTimeout: 1200000,
     //
     // Default request retries count
     connectionRetryCount: 3,
@@ -157,6 +176,17 @@ exports.config = {
     // The only one supported by default is 'dot'
     // see also: https://webdriver.io/docs/dot-reporter
     reporters: ['spec'],
+    // reporters: [['allure', {
+    //     outputDir: 'allure-results',
+    //     disableWebdriverStepsReporting: true,
+    //     disableWebdriverScreenshotsReporting: false,
+    // }]],
+    // reporters: ['spec',
+    //     [video, {
+    //       saveAllVideos: false,       // If true, also saves videos for successful test cases
+    //       videoSlowdownMultiplier: 3, // Higher to get slower videos, lower for faster videos [Value 1-100]
+    //     }],
+    //   ],
 
 
     
@@ -165,7 +195,7 @@ exports.config = {
     // See the full list at http://mochajs.org/
     mochaOpts: {
         ui: 'bdd',
-        timeout: 600000000
+        timeout: 2000000
     },
     //
     // =====
@@ -261,8 +291,11 @@ exports.config = {
      * @param {Boolean} result.passed    true if test has passed, otherwise false
      * @param {Object}  result.retries   informations to spec related retries, e.g. `{ attempts: 0, limit: 0 }`
      */
-    // afterTest: function(test, context, { error, result, duration, passed, retries }) {
-    // },
+     afterTest: async function(test, context, { error, result, duration, passed, retries }) {
+        if (error) {
+            await browser.takeScreenshot();
+          } 
+    },
 
 
     /**

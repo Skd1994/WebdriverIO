@@ -1,4 +1,7 @@
 const { assert } = require("chai")
+const LoginPage = require("../pageobjects/vtigerPageObject/LoginPage")
+const homePage = require("../pageobjects/vtigerPageObject/homePage")
+
 
 describe("create Campaign with Product",async ()=>{
     var randomNum = Math.round(Math.random()*1000)

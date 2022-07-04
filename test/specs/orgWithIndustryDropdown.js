@@ -1,40 +1,45 @@
+const LoginPage = require("../pageobjects/vtigerPageObject/LoginPage")
+const homePage = require("../pageobjects/vtigerPageObject/homePage")
+
 describe("OrgwithIndustry",async() => {
     var randomNum = Math.round(Math.random()*1000)
     var orgName = "AUGNITO"
 
     it('launch vtiger',async()=>{
         //launching the browser
-        await browser.url("http://localhost:8888/")
-        await browser.pause(3000)
+       await LoginPage.open()
+       await browser.url("http://localhost:8888/")
+       await console.log(browser.getTitle());
 
-        //maximize the browser
-        await browser.maximizeWindow()
-
-        await console.log(browser.getTitle());
+       //maximize the browser
+       await browser.maximizeWindow()
+       await LoginPage.login('admin', 'root')
+       await expect(browser).toHaveTitleContaining('vtiger CRM 5')
     })
 
-    it("login to vtiger",async()=>{
-        var username = "admin"
-        var password = "root"
+    // it("login to vtiger",async()=>{
+    //     var username = "admin"
+    //     var password = "root"
         
-        //username = admin
-        var usernameInput = await $("//div//input[@name='user_name']")
-        usernameInput.setValue(username)
+    //     //username = admin
+    //     var usernameInput = await $("//div//input[@name='user_name']")
+    //     usernameInput.setValue(username)
+    //     await browser.pause(3000)
        
-        //password = root
-        var passwordInput = await $("//div//input[@name='user_password']")
-        passwordInput.setValue(password)
+    //     //password = root
+    //     var passwordInput = await $("//div//input[@name='user_password']")
+    //     passwordInput.setValue(password)
+    //     await browser.pause(3000)
         
-           //click on login button
-           var button = await $('//div//input[@id="submitButton"]')
-           button.click()
-    })
+    //        //click on login button
+    //        var button = await $('//div//input[@id="submitButton"]')
+    //        button.click()
+    // })
     it("create Organization", async() => {
         //assertion
-        await expect(browser).toHaveUrlContaining("ndex&module=Home")
-
-        var organization = await browser.$("//td[@class='tabUnSelected']/a[text()='Organizations']")
-        await organization.click()
+        await expect(browser).toHaveUrlContaining('index&module=Home')
+          await homePage.organization()
+          
 
         //assertion
         await expect(browser).toHaveUrlContaining("Accounts&action")

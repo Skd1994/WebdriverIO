@@ -3,18 +3,22 @@
     "version": "0.1.0",
     "private": true,
     "devDependencies": {
+        "@wdio/allure-reporter": "^7.0.0",
         "@wdio/cli": "^7.20.2",
         "@wdio/local-runner": "^7.20.2",
         "@wdio/mocha-framework": "^7.20.0",
+        "@wdio/selenium-standalone-service": "^7.7.4",
         "@wdio/spec-reporter": "^7.20.0",
         "chromedriver": "^102.0.0",
-        "wdio-chromedriver-service": "^7.3.2",
-        "@wdio/selenium-standalone-service": "^7.7.4"
+        "wdio-chromedriver-service": "^7.3.2"
     },
     "scripts": {
-        "wdio": "wdio run wdio.conf.js"
+        "wdio": "wdio run wdio.conf.js",
+        "Smoke": "npx wdio run ./wdio.conf.js --mochaOpts.grep Smoke",
+        "script": "npx wdio run ./wdio.conf.js --spec test/specs/createContacts.js"
     },
     "dependencies": {
-        "chai": "^4.3.6"
+        "chai": "^4.3.6",
+        "wdio-video-reporter": "^3.2.1"
     }
 }

@@ -1,13 +1,19 @@
 const { assert } = require("chai")
+const LoginPage = require("../pageobjects/vtigerPageObject/LoginPage")
+const homePage = require("../pageobjects/vtigerPageObject/homePage")
+
 
 describe("create Products",async ()=>{
     it("launch vtiger",async()=>{
         //launching the browser
-        await browser.url("http://localhost:8888/")
-        await browser.pause(3000)
+       await LoginPage.open()
+       await browser.url("http://localhost:8888/")
+       await console.log(browser.getTitle());
 
-        //maximize the browser
-        await browser.maximizeWindow()
+       //maximize the browser
+       await browser.maximizeWindow()
+       await LoginPage.login('admin', 'root')
+       await expect(browser).toHaveTitleContaining('vtiger CRM 5')
 
     })
     it("login to vtiger",async()=>{
@@ -73,7 +79,8 @@ describe("create Products",async ()=>{
         // await loginPage.getText()
         // await console.log(loginPage);
         // await assert.include(loginPage,"Powered by vtiger CRM","login page not found")
-          await expect(browser).toHaveUrlContaining("Login&module")
+          // await expect(browser).toHaveUrlContaining("Login&module")
+          await expect(browser).toHaveUrlContaining("adf")
 
     })
 
